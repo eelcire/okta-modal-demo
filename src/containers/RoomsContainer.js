@@ -1,40 +1,32 @@
-import React from 'react';
-import RoomsFilter from '../components/RoomsFilter';
-import RoomsList from '../components/RoomsList';
-import { withRoomConsumer } from '../store/context';
-import Loading from '../components/Loading';
-import { RoomsObject } from '../models/models';
-
-interface IPropsRoomsContainer {
-    context: RoomsObject
-}
+import React from "react";
+import RoomsFilter from "../components/RoomsFilter";
+import RoomsList from "../components/RoomsList";
+import { withRoomConsumer } from "../store/context";
+import Loading from "../components/Loading";
 
 // Use Context in functional component with HOC
-const RoomsContainer: React.FC<IPropsRoomsContainer> = ({context}) => {
+const RoomsContainer = ({ context }) => {
+  const { loading, rooms, sortedRooms } = context;
+  console.log("context", context);
 
-    const {loading, rooms, sortedRooms} = context;
-    console.log("context", context);
-
-    if (loading) {
-        return <Loading />
-    }
-    return (
-        <React.Fragment>
-            <RoomsFilter rooms={rooms} />
-            <RoomsList rooms={sortedRooms}/> 
-        </React.Fragment>
-    );
-}
+  if (loading) {
+    return <Loading />;
+  }
+  return (
+    <React.Fragment>
+      <RoomsFilter rooms={rooms} />
+      <RoomsList rooms={sortedRooms} />
+    </React.Fragment>
+  );
+};
 
 export default withRoomConsumer(RoomsContainer);
-
 
 // // Use Context in functional component without HOC (Normal)
 
 // import { RoomConsumer } from '../store/context';
 
 // const RoomsContainer: React.FC = () => {
-
 
 // return (
 // <RoomConsumer>
@@ -49,7 +41,7 @@ export default withRoomConsumer(RoomsContainer);
 //             <div>
 //                 Hello from rooms cont
 //                 <RoomsFilter rooms={rooms} />
-//                 <RoomsList rooms={sortedRooms}/> 
+//                 <RoomsList rooms={sortedRooms}/>
 //             </div>
 //         );
 //     } else {
