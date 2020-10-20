@@ -22,7 +22,7 @@ export default class Navbar extends Component {
             </li>
             {!this.props.state.authenticated ? (
               <li>
-                <Link onClick={() => this.props.login()}>Click Me</Link>
+                <Link onClick={() => this.props.login()}>Login</Link>
               </li>
             ) : (
               <li>
