@@ -7,7 +7,8 @@ export default {
     issuer: process.env.REACT_APP_ISSUER,
     redirectUri: "http://localhost:3000/implicit/callback",
     scopes: ["openid", "profile", "email"],
-    pkce: true,
+    pkce: false,
+    // responseMode: "fragment",
     disableHttpsCheck: OKTA_TESTING_DISABLEHTTPSCHECK,
   },
 };

@@ -1,12 +1,15 @@
-import React, { Component, useEffect } from "react";
+import React, { Component } from "react";
 import "../assets/styles/css/index.css";
 import { Route, Switch } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
+import Navbar2 from "../components/Navbar2";
 import Home from "../pages/Home";
 import Rooms from "../pages/Rooms";
 import SingleRoom from "../pages/SingleRoom";
 import ErrorPage from "../pages/ErrorPage";
+import Profile from "../pages/Profile";
+import LoginCallback from "../pages/LoginCallback";
 
 import { OktaAuth } from "@okta/okta-auth-js";
 import config from "../config";
@@ -22,6 +25,11 @@ class App extends Component {
   };
 
   componentDidMount() {
+    // let storage = localStorage.getItem("okta-token-storage");
+    // if (storage === "{}") {
+    //   alert("yes");
+    // }
+
     authClient.tokenManager
       .get("accessToken")
       .then((res) => this.setState({ accessToken: res.value }))
@@ -79,13 +87,39 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar logout={this.logout} login={this.login} state={this.state} />
-        <Switch>
-          <Route exact path="/" render={() => <Home state={this.state} />} />
-          <Route exact path="/rooms/" component={Rooms} />
-          <Route exact path="/rooms/:slug" component={SingleRoom} />
-          <Route component={ErrorPage} />
-        </Switch>
+        {window.location.href.split("callback")[0] ===
+        "http://localhost:3000/implicit/" ? (
+          <>
+            <Switch>
+              <Route path="/implicit/callback" component={LoginCallback} />
+            </Switch>
+          </>
+        ) : (
+          <>
+            <Navbar />
+            <Navbar2
+              logout={this.logout}
+              login={this.login}
+              state={this.state}
+            />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => <Home state={this.state} />}
+              />
+              <Route
+                exact
+                path="/profile"
+                render={() => <Profile state={this.state} />}
+              />
+              <Route exact path="/rooms/" component={Rooms} />
+              <Route exact path="/rooms/:slug" component={SingleRoom} />
+              <Route path="/implicit/callback" component={LoginCallback} />
+              <Route component={ErrorPage} />
+            </Switch>
+          </>
+        )}
       </React.Fragment>
     );
   }
