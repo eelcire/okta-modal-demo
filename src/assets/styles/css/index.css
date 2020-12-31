@@ -622,3 +622,11 @@ p {
   height: 50px;
   width: 120px;
 }
+
+#opened {
+  display: inline;
+}
+
+#closed {
+  display: none;
+}

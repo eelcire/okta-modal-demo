@@ -3,7 +3,21 @@ import React, { Component } from "react";
 import Logo from "../assets/images/logo.png";
 import { Link } from "react-router-dom";
 
+import OktaModal from "../components/OktaModal";
+
+import { authClient } from "../containers/App";
+
 export default class Navbar extends Component {
+  state = { opened: false };
+
+  onLoginClicked = () => {
+    this.setState({ opened: !this.state.opened });
+  };
+
+  onLoginPopup = () => {
+    authClient.loginWithPopup();
+  };
+
   render() {
     return (
       <nav className="navbar">
@@ -22,27 +36,24 @@ export default class Navbar extends Component {
               <li>
                 <Link to="/rooms">Rooms</Link>
               </li>
+              {/* <li>
+                <Link onClick={this.onLoginPopup}>Login</Link>
+              </li> */}
+              <div>
+                <OktaModal
+                  id={this.state.opened ? "opened" : "closed"}
+                  style={{
+                    position: "absolute",
+                    height: "573px",
+                    top: "58px",
+                    right: "180px",
+                    border: "none",
+                  }}
+                  redirectUri={`http://localhost:3000/redirect`}
+                />
+              </div>
               <li>
-                {/* <div
-                  id="object"
-                  style={{
-                    position: "absolute",
-                    height: "800px",
-                    width: "600px",
-                    left: "0px",
-                  }}
-                >
-                </div> */}
-                <iframe
-                  style={{
-                    position: "absolute",
-                    height: "800px",
-                    width: "600px",
-                    left: "0px",
-                  }}
-                  id="object"
-                  src="https://iam.mrgres.com/oauth2/ausua89r0fFZxVsAq0h7/v1/authorize?response_type=code&scope=openid&redirect_uri=http://localhost:3000/implicit/callback&state=authn&code_challenge_method=S256&code_challenge=mgm_identity_widget&client_id=mgm_identity_widget"
-                ></iframe>
+                <Link onClick={this.onLoginClicked}>Login</Link>
               </li>
             </ul>
           ) : (
